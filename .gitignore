@@ -1,0 +1,8 @@
+build/obj/
+build/gen/
+build/dex/
+build/sources.txt
+build/*-unaligned.apk
+build/*-aligned.apk
+build/debug.keystore
+*.class

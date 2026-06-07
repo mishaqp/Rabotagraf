@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1976D2</color>
+    <color name="colorPrimaryDark">#1565C0</color>
+    <color name="colorAccent">#FF5722</color>
+    <color name="colorBackground">#F5F5F5</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorTextPrimary">#212121</color>
+    <color name="colorTextSecondary">#757575</color>
+    <color name="colorDivider">#E0E0E0</color>
+    <color name="colorToday">#E3F2FD</color>
+    <color name="colorTodayText">#1976D2</color>
+    <color name="colorWork">#4CAF50</color>
+    <color name="colorDayOff">#9E9E9E</color>
+    <color name="colorVacation">#FF9800</color>
+    <color name="colorSick">#F44336</color>
+    <color name="colorWeekend">#FFEBEE</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+</resources>
