@@ -1,8 +1,12 @@
 build/obj/
 build/gen/
 build/dex/
+build/compiled_res/
 build/sources.txt
 build/*-unaligned.apk
 build/*-aligned.apk
+build/*-signed-v1.apk
+build/*-unsigned.apk
+build/resources.ap_
 build/debug.keystore
 *.class
