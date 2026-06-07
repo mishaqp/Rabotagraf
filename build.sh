@@ -9,6 +9,7 @@ ANDROID_JAR="/usr/lib/android-sdk/platforms/android-23/android.jar"
 AAPT2="/usr/lib/android-sdk/build-tools/debian/aapt2"
 DX="dalvik-exchange"
 ZIPALIGN="/usr/lib/android-sdk/build-tools/debian/zipalign"
+APKSIGNER="/usr/lib/android-sdk/build-tools/debian/apksigner"
 KEYSTORE="$BUILD_DIR/debug.keystore"
 
 echo "=== Очистка build директории ==="
@@ -67,22 +68,26 @@ keytool -genkeypair \
     -keypass android \
     -dname "CN=Android Debug,O=Android,C=US" 2>/dev/null || true
 
-echo "=== Подпись APK (jarsigner V1) ==="
-cp "$BUILD_DIR/rabotagraf-unsigned.apk" "$BUILD_DIR/rabotagraf-signed-v1.apk"
-jarsigner \
-    -verbose \
-    -sigalg SHA256withRSA \
-    -digestalg SHA-256 \
-    -keystore "$KEYSTORE" \
-    -storepass android \
-    -keypass android \
-    "$BUILD_DIR/rabotagraf-signed-v1.apk" \
-    androiddebugkey 2>&1 | tail -5
-
+# Android 11+: zipalign BEFORE apksigner (V2/V3 sign AFTER align)
 echo "=== Выравнивание APK (zipalign) ==="
 $ZIPALIGN -f 4 \
-    "$BUILD_DIR/rabotagraf-signed-v1.apk" \
-    "$BUILD_DIR/rabotagraf-debug.apk"
+    "$BUILD_DIR/rabotagraf-unsigned.apk" \
+    "$BUILD_DIR/rabotagraf-aligned.apk"
+
+echo "=== Подпись APK (apksigner V2+V3) ==="
+$APKSIGNER sign \
+    --ks "$KEYSTORE" \
+    --ks-pass pass:android \
+    --key-pass pass:android \
+    --ks-key-alias androiddebugkey \
+    --v1-signing-enabled true \
+    --v2-signing-enabled true \
+    --v3-signing-enabled true \
+    --out "$BUILD_DIR/rabotagraf-debug.apk" \
+    "$BUILD_DIR/rabotagraf-aligned.apk"
+
+echo "=== Верификация подписи ==="
+$APKSIGNER verify --verbose "$BUILD_DIR/rabotagraf-debug.apk" 2>&1 | grep -E "Verified|scheme"
 
 echo ""
 echo "=== ГОТОВО! ==="
