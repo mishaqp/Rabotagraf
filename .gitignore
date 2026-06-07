@@ -9,4 +9,5 @@ build/*-signed-v1.apk
 build/*-unsigned.apk
 build/resources.ap_
 build/debug.keystore
+build/*.idsig
 *.class
